@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "702949419668",
+    "project_id": "vegetmini104",
+    "storage_bucket": "vegetmini104.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702949419668:android:46d45a925990506936a281",
+        "android_client_info": {
+          "package_name": "com.vegetfilm.vegetablenote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "702949419668-uopovfrmvu8b8hsqpefim8nhko2s2ulr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vegetfilm.vegetablenote",
+            "certificate_hash": "a836f3efc44d2dc5c4eb9ce716c3c8930b06bbaf"
+          }
+        },
+        {
+          "client_id": "702949419668-e86amquojkt4qn0v1j4mppaec8anivc1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgUlqvyO3WgRnbV2JSpYcdbEkxOSmilsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "702949419668-e86amquojkt4qn0v1j4mppaec8anivc1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
