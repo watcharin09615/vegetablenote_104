@@ -14,8 +14,24 @@ class AddplantPages extends StatefulWidget {
 
 class _AddplantPagesState extends State<AddplantPages> {
   final TextEditingController _name = TextEditingController();
-  final TextEditingController _date = TextEditingController();
+  // final TextEditingController _date = TextEditingController();
+  // final DateTime? _date = DateTime.now();
   final format = DateFormat("dd-MM-yyyy");
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2020),
+        lastDate: DateTime(2030));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +41,8 @@ class _AddplantPagesState extends State<AddplantPages> {
           children: [
             text(),
             input( _name , 'Name Plant'),
-            inputdate( _date , 'Date Plant'),
+            tex(),
+            inputdate(),
             submit(),
             textt( PlantPages(email: widget.email,) , 'กลับหน้าหลัก'),
 
@@ -52,13 +69,39 @@ class _AddplantPagesState extends State<AddplantPages> {
     );
   }
 
+  Container text() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      alignment: Alignment.center,
+      child: const Text(
+        'เพิ่มการปลูก',
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Container tex() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      alignment: Alignment.center,
+      child: const Text(
+        'วันที่ปลูก ',
+        style: TextStyle(
+          fontSize: 15, 
+          fontWeight: FontWeight.bold ,
+          color: Colors.lightBlue),
+      ),
+    );
+  }
+
   CollectionReference plants = FirebaseFirestore.instance.collection('Plants');
   Future<void> addProduct() {
     return plants
         .add({
           'email': widget.email,
           'plant_name': _name.text,
-          'date_plant': _date.toString(),
+          'date_plant': format.format(selectedDate),
+          // 'date_plant': (selectedDate.toString().split(' ')[0]).toString(),
         })
         .then((value) => print("Plants data has been successfully"))
         .catchError((error) => print("Failed to add data: $error"));
@@ -115,64 +158,55 @@ class _AddplantPagesState extends State<AddplantPages> {
           ),
           label: Text(
             b,
-            style: TextStyle(color: Colors.purple),
+            style: const TextStyle(color: Colors.purple),
           ),
         ),
       ),
     );
   }
 
-
-
-  Container inputdate(a,b) {
+  Container inputdate() {
     return Container(
       width: 250,
       margin: const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
-      child: DateTimeField(
-        controller: a,
-        format: format,
-        onShowPicker: (context, currentValue) {
-          return showDatePicker(
-            context: context,
-            firstDate: DateTime(2000),
-            initialDate: currentValue ?? DateTime.now(),
-            lastDate: DateTime(2100)
-          );
-        },
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.purple, width: 2),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.purple, width: 2),
-          ),
-          errorBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.red, width: 2),
-          ),
-          prefixIcon: const Icon(
-            Icons.sell,
-            color: Colors.purple,
-          ),
-          label: Text(
-            b,
-            style: TextStyle(color: Colors.purple),
-          ),
+      child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            DateTimeField(
+            format: format, 
+            onShowPicker: (BuildContext context, DateTime? currentValue) async { 
+              _selectDate(context,);
+              child:Text("${selectedDate.toLocal()}".split(' ')[0],
+                style:TextStyle(color: Colors.purple),
+              );  
+              },
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderSide: BorderSide(color: Colors.red, width: 2),
+                ),
+                prefixIcon: Icon(
+                  Icons.sell,
+                  color: Colors.purple,
+                ),
+              //   label: Text(
+              //   selectedDate.toString().split(' ')[0],
+              //   style: TextStyle(color: Colors.purple),
+              // ),
+              ),
+            ),
+          ],
         ),
-      ),
     );
   }
 
-  Container text() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      alignment: Alignment.center,
-      child: const Text(
-        'เพิ่มการปลูก',
-        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
+  
 }

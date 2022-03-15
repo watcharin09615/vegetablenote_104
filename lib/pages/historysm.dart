@@ -12,6 +12,9 @@ class HistorySmallPages extends StatefulWidget {
 }
 
 class _HistorySmallPagesState extends State<HistorySmallPages> {
+
+
+  
   CollectionReference harvest = FirebaseFirestore.instance.collection('Harvest');
   Future<void> delHarvest({required String id}) {
     return harvest
@@ -74,7 +77,7 @@ class _HistorySmallPagesState extends State<HistorySmallPages> {
                           fontWeight: FontWeight.w600,
                           color: Colors.green),
                     ),
-                    subtitle: Text('เก็บเมื่อวันที่ ' + '${data['date_harvest']}' + ' จำนวน ' + '${data['qty']}' + 'kg'),
+                    subtitle: Text('เก็บเมื่อวันที่ ' + '${data['date_harvest']}' + ' จำนวน ' + '${data['qty']}' + ' kg'),
                     trailing: IconButton(
                       onPressed: () {
                         var alertDialog = AlertDialog(

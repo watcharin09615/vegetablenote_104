@@ -75,7 +75,7 @@ class _HistoryPagesState extends State<HistoryPages> {
                           fontWeight: FontWeight.w600,
                           color: Colors.green),
                     ),
-                    subtitle: Text('เก็บเมื่อวันที่ ' + '${data['date_harvest']}' + ' จำนวน ' + '${data['qty']}' + 'kg'),
+                    subtitle: Text('เก็บเมื่อวันที่ ' + '${data['date_harvest']}' + ' จำนวน ' + '${data['qty']}' + ' kg'),
                     trailing: IconButton(
                       onPressed: () {
                         var alertDialog = AlertDialog(
