@@ -170,15 +170,16 @@ class _AddplantPagesState extends State<AddplantPages> {
       width: 250,
       margin: const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
       child: Column(
+          
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             DateTimeField(
             format: format, 
             onShowPicker: (BuildContext context, DateTime? currentValue) async { 
               _selectDate(context,);
-              child:Text("${selectedDate.toLocal()}".split(' ')[0],
-                style:TextStyle(color: Colors.purple),
-              );  
+              // child: Text(format.format(selectedDate),
+              //   style:TextStyle(color: Colors.purple),
+              // );  
               },
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
@@ -196,6 +197,10 @@ class _AddplantPagesState extends State<AddplantPages> {
                 prefixIcon: Icon(
                   Icons.sell,
                   color: Colors.purple,
+                ),
+                label: Text(
+                  'Date Plant',
+                  style: TextStyle(color: Colors.purple),
                 ),
               //   label: Text(
               //   selectedDate.toString().split(' ')[0],
