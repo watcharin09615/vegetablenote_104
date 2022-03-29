@@ -1,5 +1,10 @@
 import 'package:auth_buttons/auth_buttons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:vegetablenote/pages/loginProfile.dart';
 import 'package:vegetablenote/pages/plant.dart';
 import 'package:vegetablenote/pages/registor.dart';
 import 'package:vegetablenote/service/auth_service.dart';
@@ -12,24 +17,51 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // ignore: non_constant_identifier_names
+  final _FormKey = GlobalKey<FormState>();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
 
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
+  LoginProfile loginprofile = LoginProfile();
+  final Future<FirebaseApp> firebase = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-       body: Form(
-        child: ListView(
+    return FutureBuilder(
+      future: firebase,
+      builder: (context,snapshot){
+        if(snapshot.connectionState == ConnectionState.done){
+          return Scaffold(
+         body: Form(
+          child: formfield(),
+        ),
+        );
+        }
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
+      
+    );
+  }
+  
+
+  Widget formfield() {
+    return Form(
+      key: _FormKey,
+      child: ListView(
           children: [
-            input(_email, false, 'email'),
-            input(_password, true, 'password'),
+            // input(_email, false, 'email'),
+            // input(_password, true, 'password'),
+            input(),
+            inputpass(),
             login(),
             loginwithgoogle(),
             registorformbutton(),
           ],
         ),
-      ),
     );
   }
 
@@ -53,12 +85,26 @@ class _LoginPageState extends State<LoginPage> {
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue),
         ),
-        onPressed: () {  
-           siginWithEmail(_email.text, _password.text);
-            var route = MaterialPageRoute(
-              builder: (context) => PlantPages(email: _email.text,),
-            );
-            Navigator.push(context, route);
+        onPressed: () async {  
+          if (_FormKey.currentState!.validate()) {
+          _FormKey.currentState!.save();
+          try {
+            await FirebaseAuth.instance
+              .signInWithEmailAndPassword(
+                email: loginprofile.email!,
+                password: loginprofile.password!
+              )
+              .then((value) {
+              _FormKey.currentState!.reset();
+              var route = MaterialPageRoute(builder: (context) => PlantPages(email: loginprofile.email!,));
+              Navigator.pushReplacement(context,route);
+            });
+          } on FirebaseAuthException catch (e) {
+            Fluttertoast.showToast(
+              msg: e.message!,
+              gravity: ToastGravity.CENTER);
+          }
+        }
         },
         child: const Text('Login'),
       ), 
@@ -77,38 +123,117 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Container input(a,b,c) {
+  // Container input(a,b,c) {
+  //   return Container(
+  //     width: 250,
+  //     margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+  //     child: TextFormField(
+  //       obscureText: b,
+  //       validator: MultiValidator([
+  //         RequiredValidator(errorText: c),
+  //         EmailValidator(errorText: "รูปแบบอีเมลไม่ถูกต้อง")
+  //       ]),
+  //       keyboardType: TextInputType.emailAddress,
+  //       onSaved: (String? email) {
+  //         loginprofile.email = email;
+  //       },
+  //       decoration: InputDecoration(
+  //         border: const OutlineInputBorder(
+  //           borderRadius: BorderRadius.all(Radius.circular(16)),
+  //           borderSide: BorderSide(color: Colors.blue, width: 2),
+  //         ),
+  //         enabledBorder: const OutlineInputBorder(
+  //           borderRadius: BorderRadius.all(Radius.circular(16)),
+  //           borderSide: BorderSide(color: Colors.blue, width: 2),
+  //         ),
+  //         errorBorder: const OutlineInputBorder(
+  //           borderRadius: BorderRadius.all(Radius.circular(16)),
+  //           borderSide: BorderSide(color: Colors.red, width: 2),
+  //         ),
+  //         prefixIcon: const Icon(
+  //           Icons.lock,
+  //           color: Colors.blue,
+  //         ),
+  //         label: Text(
+  //           c,
+  //           style: const TextStyle(color: Colors.blue),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  Container input() {
     return Container(
       width: 250,
       margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
       child: TextFormField(
-        controller: a,
-        obscureText: b,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Please Enter ' + c;
-          }
-          return null;
+
+        validator: MultiValidator([
+          RequiredValidator(errorText: "กรุณาป้อนอีเมล"),
+          EmailValidator(errorText: "รูปแบบอีเมลไม่ถูกต้อง")
+        ]),
+        keyboardType: TextInputType.emailAddress,
+        onSaved: (String? email) {
+          loginprofile.email = email;
         },
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
             borderSide: BorderSide(color: Colors.blue, width: 2),
           ),
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
             borderSide: BorderSide(color: Colors.blue, width: 2),
           ),
-          errorBorder: const OutlineInputBorder(
+          errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
             borderSide: BorderSide(color: Colors.red, width: 2),
           ),
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             Icons.lock,
             color: Colors.blue,
           ),
           label: Text(
-            c,
+            'Email',
+            style: const TextStyle(color: Colors.blue),
+          ),
+        ),
+      ),
+    );
+  }
+  Container inputpass() {
+    return Container(
+      width: 250,
+      margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+      child: TextFormField(
+
+        validator: MultiValidator([
+          RequiredValidator(errorText: "กรุณาป้อนรหัสผ่าน"),
+        ]),
+        // keyboardType: TextInputType.emailAddress,
+        onSaved: (String? password) {
+          loginprofile.password = password;
+        },
+        obscureText: true,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderSide: BorderSide(color: Colors.blue, width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderSide: BorderSide(color: Colors.blue, width: 2),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderSide: BorderSide(color: Colors.red, width: 2),
+          ),
+          prefixIcon: Icon(
+            Icons.lock,
+            color: Colors.blue,
+          ),
+          label: Text(
+            'password',
             style: const TextStyle(color: Colors.blue),
           ),
         ),

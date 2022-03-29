@@ -177,9 +177,9 @@ class _AddplantPagesState extends State<AddplantPages> {
             format: format, 
             onShowPicker: (BuildContext context, DateTime? currentValue) async { 
               _selectDate(context,);
-              // child: Text(format.format(selectedDate),
-              //   style:TextStyle(color: Colors.purple),
-              // );  
+              child: Text(format.format(selectedDate),
+                style:TextStyle(color: Colors.purple),
+              );  
               },
               decoration: const InputDecoration(
                 border: OutlineInputBorder(

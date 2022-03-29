@@ -5,6 +5,8 @@ import 'package:vegetablenote/pages/harvest.dart';
 import 'package:vegetablenote/pages/history.dart';
 import 'package:vegetablenote/pages/historysm.dart';
 import 'package:vegetablenote/pages/login.dart';
+import 'package:vegetablenote/pages/updatePlant.dart';
+import 'package:vegetablenote/service/auth_service.dart';
 
 class PlantPages extends StatefulWidget {
   const PlantPages({ Key? key , this.email }) : super(key: key);
@@ -36,7 +38,7 @@ class _PlantPagesState extends State<PlantPages> {
             showlist(),
             textt( AddplantPages(email: widget.email) , 'เพิ่มการปลูก'),
             textt( HistoryPages(email: widget.email,) , 'ดูประวัติการเก็บผลผลิต'),
-            textt( const LoginPage() , 'ออกจากระบบ'),
+            textout( const LoginPage() , 'ออกจากระบบ'),
           ],
         ),
       ),
@@ -60,6 +62,46 @@ class _PlantPagesState extends State<PlantPages> {
     );
   }
 
+  SizedBox textout(next , text) {
+    return SizedBox(
+      width: 130,
+      height: 45,
+      child: TextButton(
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue),
+        ),
+        onPressed: () {
+          
+          var alertDialog = AlertDialog(
+            content: const Text(
+                'คุณต้องการออกจากระบบใช่หรือไม่',),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('ยกเลิก')),
+              TextButton(
+                  onPressed: () {
+                    var route = MaterialPageRoute(builder: (context) => next,);
+                    signoutWithEmail();
+                    Navigator.push(context, route);
+                  },
+                  child: const Text(
+                    'ยืนยัน',
+                    style: TextStyle(color: Colors.red),
+                  )),
+            ],
+          );
+          showDialog(
+            context: context,
+            builder: (context) => alertDialog,
+          );
+          
+        },
+        child: Text(text),
+      ),
+    );
+  }
+
   Widget showlist() {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('Plants').where('email',isEqualTo: widget.email).snapshots(),
@@ -75,10 +117,8 @@ class _PlantPagesState extends State<PlantPages> {
                   child: ListTile(
                     onTap: () {
                       var alertDialog = AlertDialog(
-                        
-                        content: Text(
+                        content: const Text(
                             'คุณต้องการเก็บผลผลิต  ใช่หรือไม่'),
-
                         actions: [
                           TextButton(
                             onPressed: () {
@@ -87,6 +127,15 @@ class _PlantPagesState extends State<PlantPages> {
                             },
                             child: Text('ดูประวัติการเก็บผลผลิตของ ${data['plant_name']}'),
                           ),
+                          TextButton(
+                              onPressed: () {
+                                var route = MaterialPageRoute(builder: (context) => UpdatePlant(id: doc.id,email: widget.email));
+                                Navigator.push(context, route);
+                              },
+                              child: const Text(
+                                'แก้ไขข้อมูล',
+                                style: TextStyle(color: Colors.red),
+                              )),
                           TextButton(
                               onPressed: () {
                                 var route = MaterialPageRoute(builder: (context) => HarvestPages(nameplant: data['plant_name'] , email: widget.email,),);
