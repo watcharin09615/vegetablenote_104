@@ -17,21 +17,22 @@ class _UpdatePlantState extends State<UpdatePlant> {
 
   final TextEditingController _name = TextEditingController();
   final format = DateFormat("dd-MM-yyyy");
+  final TextEditingController _date = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2020),
-        lastDate: DateTime(2030));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //       context: context,
+  //       initialDate: selectedDate,
+  //       firstDate: DateTime(2020),
+  //       lastDate: DateTime(2030));
+  //   if (picked != null && picked != selectedDate) {
+  //     setState(() {
+  //       selectedDate = picked;
+  //     });
+  //   }
+  // }
 
 
   CollectionReference plant = FirebaseFirestore.instance.collection('Plants');
@@ -40,7 +41,7 @@ class _UpdatePlantState extends State<UpdatePlant> {
   return plant.doc(widget.id).update
   ({
       'plant_name': _name.text,
-      'date_plant': format.format(selectedDate),
+      'date_plant': _date.text,
     })
     .then((value) => print("Plant Updated"))
     .catchError((error) => print("Failed to update plant: $error"));
@@ -56,6 +57,7 @@ class _UpdatePlantState extends State<UpdatePlant> {
               updatetext(_name , 'Plant name' , 'plant_name' ),
               inputdate(),
               submit(),
+              textt(PlantPages(email: widget.email,) , 'ย้อนกลับ'),
             ],
           ),
         ),
@@ -63,51 +65,116 @@ class _UpdatePlantState extends State<UpdatePlant> {
     );
   }
 
-  Container inputdate() {
-    return Container(
-      width: 250,
-      margin: const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          DateTimeField(
-          format: format, 
-          onShowPicker: (BuildContext context, DateTime? currentValue) async { 
-            _selectDate(context,);
-            // ignore: unused_label
-            child: Text(format.format(selectedDate),
-              style:const TextStyle(color: Colors.purple),
-            );  
-            },
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                borderSide: BorderSide(color: Colors.purple, width: 2),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                borderSide: BorderSide(color: Colors.purple, width: 2),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                borderSide: BorderSide(color: Colors.red, width: 2),
-              ),
-              prefixIcon: Icon(
+  SizedBox textt(next , text) {
+    return SizedBox(
+      width: 130,
+      height: 45,
+      child: TextButton(
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue),
+        ),
+        onPressed: () {
+          var route = MaterialPageRoute(builder: (context) => next,);
+          Navigator.push(context, route);
+        },
+        child: Text(text),
+      ),
+    );
+  }
+
+  Widget updatetext(a,b,c){
+    return FutureBuilder<DocumentSnapshot>(
+      future: plant.doc(widget.id).get(),
+      builder: (context, snapshot){
+        Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+        a.text = data[c].toString();
+        return Container(
+          width: 250,
+          margin: const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
+          child: TextFormField(
+
+            controller: a,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                ),
+                errorBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderSide: BorderSide(color: Colors.red, width: 2),
+                ),
+              prefixIcon: const Icon(
                 Icons.sell,
                 color: Colors.purple,
               ),
               label: Text(
-                'Date Plant',
-                style: TextStyle(color: Colors.purple),
+                b,
+                style: const TextStyle(color: Colors.purple),
               ),
-            //   label: Text(
-            //   selectedDate.toString().split(' ')[0],
-            //   style: TextStyle(color: Colors.purple),
-            // ),
             ),
           ),
-        ],
-      ),
+        );
+      }
+    );
+  }
+
+  Widget inputdate(){
+    return FutureBuilder<DocumentSnapshot>(
+      future: plant.doc(widget.id).get(),
+      builder: (context, snapshot){
+        Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+        _date.text = data['date_plant'].toString();
+      return Container(
+        width: 250,
+        margin: const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            DateTimeField(
+                format: format, 
+                controller: _date,
+                onShowPicker: (context, currentValue) {
+                return showDatePicker(
+                  context: context,
+                  firstDate: DateTime(1900),
+                  initialDate: currentValue ?? DateTime.now(),
+                  lastDate: DateTime(2100));
+                },
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderSide: BorderSide(color: Colors.red, width: 2),
+                ),
+                prefixIcon: Icon(
+                  Icons.sell,
+                  color: Colors.purple,
+                ),
+                label: Text(
+                  'Date Plant',
+                  style: TextStyle(color: Colors.purple),
+                ),
+              //   label: Text(
+              //   selectedDate.toString().split(' ')[0],
+              //   style: TextStyle(color: Colors.purple),
+                // ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
     );
   }
 
@@ -128,46 +195,4 @@ class _UpdatePlantState extends State<UpdatePlant> {
       ),
     );
   }
-
-  Widget updatetext(a,b,c){
-    return FutureBuilder<DocumentSnapshot>(
-      future: plant.doc(widget.id).get(),
-      builder: (context, snapshot){
-        Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-        a.text = data[c].toString();
-        return Container(
-          width: 250,
-          margin: const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
-          child: TextFormField(
-
-            controller: a,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                borderSide: BorderSide(color: Color.fromARGB(255, 212, 255, 21), width: 2),
-              ),
-              enabledBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                borderSide: BorderSide(color: Color.fromARGB(255, 0, 255, 191), width: 2),
-              ),
-              errorBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                borderSide: BorderSide(color: Colors.red, width: 2),
-              ),
-              prefixIcon: const Icon(
-                Icons.sell,
-                color: Colors.purple,
-              ),
-              label: Text(
-                b,
-                style: const TextStyle(color: Colors.purple),
-              ),
-            ),
-          ),
-        );
-      }
-    );
-  }
-
-
 }

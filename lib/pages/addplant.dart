@@ -14,24 +14,23 @@ class AddplantPages extends StatefulWidget {
 
 class _AddplantPagesState extends State<AddplantPages> {
   final TextEditingController _name = TextEditingController();
-  // final TextEditingController _date = TextEditingController();
-  // final DateTime? _date = DateTime.now();
   final format = DateFormat("dd-MM-yyyy");
+  final TextEditingController _date = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2020),
-        lastDate: DateTime(2030));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //       context: context,
+  //       initialDate: selectedDate,
+  //       firstDate: DateTime(2020),
+  //       lastDate: DateTime(2030));
+  //   if (picked != null && picked != selectedDate) {
+  //     setState(() {
+  //       selectedDate = picked;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +99,7 @@ class _AddplantPagesState extends State<AddplantPages> {
         .add({
           'email': widget.email,
           'plant_name': _name.text,
-          'date_plant': format.format(selectedDate),
+          'date_plant': _date.text,
           // 'date_plant': (selectedDate.toString().split(' ')[0]).toString(),
         })
         .then((value) => print("Plants data has been successfully"))
@@ -175,12 +174,14 @@ class _AddplantPagesState extends State<AddplantPages> {
           children: <Widget>[
             DateTimeField(
             format: format, 
-            onShowPicker: (BuildContext context, DateTime? currentValue) async { 
-              _selectDate(context,);
-              child: Text(format.format(selectedDate),
-                style:TextStyle(color: Colors.purple),
-              );  
-              },
+            controller: _date,
+            onShowPicker: (context, currentValue) {
+            return showDatePicker(
+              context: context,
+              firstDate: DateTime(1900),
+              initialDate: currentValue ?? DateTime.now(),
+              lastDate: DateTime(2100));
+            },
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),

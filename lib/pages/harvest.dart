@@ -16,7 +16,7 @@ class HarvestPages extends StatefulWidget {
 class _HarvestPagesState extends State<HarvestPages> {
   
   final TextEditingController _qty = TextEditingController();
-  // final TextEditingController _date = TextEditingController();
+  final TextEditingController _date = TextEditingController();
   final format = DateFormat("dd-MM-yyyy");
 
   DateTime selectedDate = DateTime.now();
@@ -58,7 +58,7 @@ class _HarvestPagesState extends State<HarvestPages> {
           'email': widget.email,
           'harvest_name': widget.nameplant,
           'qty': _qty.text,
-          'date_harvest': format.format(selectedDate),
+          'date_harvest': _date,
         })
         .then((value) => print("Plants data has been successfully"))
         .catchError((error) => print("Failed to add data: $error"));
@@ -129,16 +129,19 @@ class _HarvestPagesState extends State<HarvestPages> {
       width: 250,
       margin: const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
       child: Column(
+          
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             DateTimeField(
             format: format, 
-            onShowPicker: (BuildContext context, DateTime? currentValue) async { 
-              _selectDate(context,);
-              child:Text("${selectedDate.toLocal()}".split(' ')[0],
-                style:TextStyle(color: Colors.purple),
-              );  
-              },
+            controller: _date,
+            onShowPicker: (context, currentValue) {
+            return showDatePicker(
+              context: context,
+              firstDate: DateTime(1900),
+              initialDate: currentValue ?? DateTime.now(),
+              lastDate: DateTime(2100));
+            },
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -156,10 +159,10 @@ class _HarvestPagesState extends State<HarvestPages> {
                   Icons.sell,
                   color: Colors.purple,
                 ),
-              //   label: Text(
-              //   selectedDate.toString().split(' ')[0],
-              //   style: TextStyle(color: Colors.purple),
-              // ),
+                label: Text(
+                  'Date Harvest',
+                  style: TextStyle(color: Colors.purple),
+                ),
               ),
             ),
           ],

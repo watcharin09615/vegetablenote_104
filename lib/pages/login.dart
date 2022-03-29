@@ -53,15 +53,26 @@ class _LoginPageState extends State<LoginPage> {
       key: _FormKey,
       child: ListView(
           children: [
-            // input(_email, false, 'email'),
-            // input(_password, true, 'password'),
+            text('ยินดีต้อนรับสู่'),
+            text('ระบบบันทึกการปลูก'),
+
             input(),
             inputpass(),
             login(),
-            loginwithgoogle(),
             registorformbutton(),
           ],
         ),
+    );
+  }
+
+  Container text(a) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      alignment: Alignment.center,
+      child: Text(
+        a,
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      ),
     );
   }
 
@@ -111,57 +122,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Container loginwithgoogle() {
-    return Container(
-      padding: const EdgeInsets.all(25),
-      child: GoogleAuthButton(
-        onPressed: () {
-          signInWithGoogle();
-        },
-        darkMode: false,
-      ),
-    );
-  }
-
-  // Container input(a,b,c) {
+  // Container loginwithgoogle() {
   //   return Container(
-  //     width: 250,
-  //     margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-  //     child: TextFormField(
-  //       obscureText: b,
-  //       validator: MultiValidator([
-  //         RequiredValidator(errorText: c),
-  //         EmailValidator(errorText: "รูปแบบอีเมลไม่ถูกต้อง")
-  //       ]),
-  //       keyboardType: TextInputType.emailAddress,
-  //       onSaved: (String? email) {
-  //         loginprofile.email = email;
+  //     padding: const EdgeInsets.all(25),
+  //     child: GoogleAuthButton(
+  //       onPressed: () {
+  //         signInWithGoogle();
   //       },
-  //       decoration: InputDecoration(
-  //         border: const OutlineInputBorder(
-  //           borderRadius: BorderRadius.all(Radius.circular(16)),
-  //           borderSide: BorderSide(color: Colors.blue, width: 2),
-  //         ),
-  //         enabledBorder: const OutlineInputBorder(
-  //           borderRadius: BorderRadius.all(Radius.circular(16)),
-  //           borderSide: BorderSide(color: Colors.blue, width: 2),
-  //         ),
-  //         errorBorder: const OutlineInputBorder(
-  //           borderRadius: BorderRadius.all(Radius.circular(16)),
-  //           borderSide: BorderSide(color: Colors.red, width: 2),
-  //         ),
-  //         prefixIcon: const Icon(
-  //           Icons.lock,
-  //           color: Colors.blue,
-  //         ),
-  //         label: Text(
-  //           c,
-  //           style: const TextStyle(color: Colors.blue),
-  //         ),
-  //       ),
+  //       darkMode: false,
   //     ),
   //   );
   // }
+
   Container input() {
     return Container(
       width: 250,
@@ -190,12 +162,12 @@ class _LoginPageState extends State<LoginPage> {
             borderSide: BorderSide(color: Colors.red, width: 2),
           ),
           prefixIcon: Icon(
-            Icons.lock,
+            Icons.account_circle,
             color: Colors.blue,
           ),
           label: Text(
             'Email',
-            style: const TextStyle(color: Colors.blue),
+            style: TextStyle(color: Colors.blue),
           ),
         ),
       ),
@@ -234,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           label: Text(
             'password',
-            style: const TextStyle(color: Colors.blue),
+            style: TextStyle(color: Colors.blue),
           ),
         ),
       ),
