@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vegetfilm.vegetablenote">
-   <user-permission android:name="android.permission.INTERNET" />
    <application
         android:label="vegetablenote"
         android:name="${applicationName}"
