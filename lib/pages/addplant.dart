@@ -40,7 +40,7 @@ class _AddplantPagesState extends State<AddplantPages> {
           children: [
             text(),
             input( _name , 'Name Plant'),
-            tex(),
+            // tex(),
             inputdate(),
             submit(),
             textt( PlantPages(email: widget.email,) , 'กลับหน้าหลัก'),
@@ -141,11 +141,11 @@ class _AddplantPagesState extends State<AddplantPages> {
         decoration: InputDecoration(
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.purple, width: 2),
+            borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
           ),
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.purple, width: 2),
+            borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
           ),
           errorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -153,11 +153,11 @@ class _AddplantPagesState extends State<AddplantPages> {
           ),
           prefixIcon: const Icon(
             Icons.sell,
-            color: Colors.purple,
+            color: Color.fromARGB(255, 99, 206, 0),
           ),
           label: Text(
             b,
-            style: const TextStyle(color: Colors.purple),
+            style: const TextStyle(color: Color.fromARGB(255, 99, 206, 0)),
           ),
         ),
       ),
@@ -185,11 +185,11 @@ class _AddplantPagesState extends State<AddplantPages> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
-                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                  borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
-                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                  borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -197,11 +197,11 @@ class _AddplantPagesState extends State<AddplantPages> {
                 ),
                 prefixIcon: Icon(
                   Icons.sell,
-                  color: Colors.purple,
+                  color: Color.fromARGB(255, 99, 206, 0),
                 ),
                 label: Text(
                   'Date Plant',
-                  style: TextStyle(color: Colors.purple),
+                  style: TextStyle(color: Color.fromARGB(255, 99, 206, 0)),
                 ),
               //   label: Text(
               //   selectedDate.toString().split(' ')[0],

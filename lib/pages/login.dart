@@ -1,4 +1,3 @@
-import 'package:auth_buttons/auth_buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:vegetablenote/pages/loginProfile.dart';
 import 'package:vegetablenote/pages/plant.dart';
 import 'package:vegetablenote/pages/registor.dart';
-import 'package:vegetablenote/service/auth_service.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key? key }) : super(key: key);
@@ -19,8 +18,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // ignore: non_constant_identifier_names
   final _FormKey = GlobalKey<FormState>();
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
 
   LoginProfile loginprofile = LoginProfile();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
@@ -46,6 +43,8 @@ class _LoginPageState extends State<LoginPage> {
       
     );
   }
+
+  
   
 
   Widget formfield() {
@@ -53,9 +52,9 @@ class _LoginPageState extends State<LoginPage> {
       key: _FormKey,
       child: ListView(
           children: [
+            img(),
             text('ยินดีต้อนรับสู่'),
             text('ระบบบันทึกการปลูก'),
-
             input(),
             inputpass(),
             login(),
@@ -65,13 +64,20 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  CircleAvatar img() {
+    return const CircleAvatar(
+      backgroundImage: AssetImage('images/logo.png'),
+      radius: 120.0,
+    );
+  }
+
   Container text(a) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20),
       alignment: Alignment.center,
       child: Text(
         a,
-        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -84,6 +90,9 @@ class _LoginPageState extends State<LoginPage> {
            Navigator.push(context, route);
         }, 
         child: const Text('Registor'),
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 88, 182, 1)),
+        ),
       ),
     );
   }
@@ -94,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
       height: 45,
       child: TextButton(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue),
+          foregroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 88, 182, 1)),
         ),
         onPressed: () async {  
           if (_FormKey.currentState!.validate()) {
@@ -151,23 +160,24 @@ class _LoginPageState extends State<LoginPage> {
         decoration: const InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
             borderSide: BorderSide(color: Colors.red, width: 2),
           ),
+
           prefixIcon: Icon(
             Icons.account_circle,
-            color: Colors.blue,
+            color: Color.fromARGB(255, 99, 206, 0),
           ),
           label: Text(
             'Email',
-            style: TextStyle(color: Colors.blue),
+            style: TextStyle(color: Color.fromARGB(255, 99, 206, 0)),
           ),
         ),
       ),
@@ -190,11 +200,11 @@ class _LoginPageState extends State<LoginPage> {
         decoration: const InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -202,11 +212,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
           prefixIcon: Icon(
             Icons.lock,
-            color: Colors.blue,
+            color: Color.fromARGB(255, 99, 206, 0),
           ),
           label: Text(
             'password',
-            style: TextStyle(color: Colors.blue),
+            style: TextStyle(color: Color.fromARGB(255, 99, 206, 0)),
           ),
         ),
       ),
