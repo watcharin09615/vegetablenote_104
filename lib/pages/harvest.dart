@@ -21,19 +21,6 @@ class _HarvestPagesState extends State<HarvestPages> {
 
   DateTime selectedDate = DateTime.now();
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2020),
-        lastDate: DateTime(2030));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +45,7 @@ class _HarvestPagesState extends State<HarvestPages> {
           'email': widget.email,
           'harvest_name': widget.nameplant,
           'qty': _qty.text,
-          'date_harvest': _date,
+          'date_harvest': _date.text,
         })
         .then((value) => print("Plants data has been successfully"))
         .catchError((error) => print("Failed to add data: $error"));
@@ -99,23 +86,23 @@ class _HarvestPagesState extends State<HarvestPages> {
         decoration: InputDecoration(
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.purple, width: 2),
+            borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
           ),
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.purple, width: 2),
+            borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
           ),
           errorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            borderSide: BorderSide(color: Colors.red, width: 2),
+            borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
           ),
           prefixIcon: const Icon(
-            Icons.sell,
-            color: Colors.purple,
+            Icons.scale,
+            color: Color.fromARGB(255, 99, 206, 0),
           ),
           label: Text(
             b,
-            style: TextStyle(color: Colors.purple),
+            style: TextStyle(color: Color.fromARGB(255, 99, 206, 0)),
           ),
         ),
       ),
@@ -145,24 +132,28 @@ class _HarvestPagesState extends State<HarvestPages> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
-                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                  borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
-                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                  borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
                   borderSide: BorderSide(color: Colors.red, width: 2),
                 ),
                 prefixIcon: Icon(
-                  Icons.sell,
-                  color: Colors.purple,
+                  Icons.date_range_outlined,
+                  color: Color.fromARGB(255, 99, 206, 0),
                 ),
                 label: Text(
-                  'Date Harvest',
-                  style: TextStyle(color: Colors.purple),
+                  'Date Plant',
+                  style: TextStyle(color: Color.fromARGB(255, 99, 206, 0)),
                 ),
+              //   label: Text(
+              //   selectedDate.toString().split(' ')[0],
+              //   style: TextStyle(color: Colors.purple),
+              // ),
               ),
             ),
           ],

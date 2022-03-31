@@ -97,23 +97,23 @@ class _UpdatePlantState extends State<UpdatePlant> {
             decoration: InputDecoration(
               border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
-                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                  borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
                 ),
                 enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
-                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                  borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
                 ),
                 errorBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
-                  borderSide: BorderSide(color: Colors.red, width: 2),
+                  borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
                 ),
               prefixIcon: const Icon(
                 Icons.sell,
-                color: Colors.purple,
+                color: Color.fromARGB(255, 99, 206, 0),
               ),
               label: Text(
                 b,
-                style: const TextStyle(color: Colors.purple),
+                style: const TextStyle(color: Color.fromARGB(255, 99, 206, 0)),
               ),
             ),
           ),
@@ -122,59 +122,53 @@ class _UpdatePlantState extends State<UpdatePlant> {
     );
   }
 
-  Widget inputdate(){
-    return FutureBuilder<DocumentSnapshot>(
-      future: plant.doc(widget.id).get(),
-      builder: (context, snapshot){
-        Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-        _date.text = data['date_plant'].toString();
-      return Container(
-        width: 250,
-        margin: const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
-        child: Column(
+  Container inputdate() {
+    return Container(
+      width: 250,
+      margin: const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
+      child: Column(
+          
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             DateTimeField(
-                format: format, 
-                controller: _date,
-                onShowPicker: (context, currentValue) {
-                return showDatePicker(
-                  context: context,
-                  firstDate: DateTime(1900),
-                  initialDate: currentValue ?? DateTime.now(),
-                  lastDate: DateTime(2100));
-                },
+            format: format, 
+            controller: _date,
+            onShowPicker: (context, currentValue) {
+            return showDatePicker(
+              context: context,
+              firstDate: DateTime(1900),
+              initialDate: currentValue ?? DateTime.now(),
+              lastDate: DateTime(2100));
+            },
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
-                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                  borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
-                  borderSide: BorderSide(color: Colors.purple, width: 2),
+                  borderSide: BorderSide(color: Color.fromARGB(255, 99, 206, 0), width: 2),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
                   borderSide: BorderSide(color: Colors.red, width: 2),
                 ),
                 prefixIcon: Icon(
-                  Icons.sell,
-                  color: Colors.purple,
+                  Icons.date_range_outlined,
+                  color: Color.fromARGB(255, 99, 206, 0),
                 ),
                 label: Text(
                   'Date Plant',
-                  style: TextStyle(color: Colors.purple),
+                  style: TextStyle(color: Color.fromARGB(255, 99, 206, 0)),
                 ),
               //   label: Text(
               //   selectedDate.toString().split(' ')[0],
               //   style: TextStyle(color: Colors.purple),
-                // ),
-                ),
+              // ),
               ),
-            ],
-          ),
-        );
-      }
+            ),
+          ],
+        ),
     );
   }
 

@@ -134,7 +134,7 @@ class _PlantPagesState extends State<PlantPages> {
                               },
                               child: const Text(
                                 'แก้ไขข้อมูล',
-                                style: TextStyle(color: Colors.red),
+                                style: TextStyle(color: Colors.green),
                               )),
                           TextButton(
                               onPressed: () {

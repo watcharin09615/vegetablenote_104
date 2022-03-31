@@ -152,7 +152,7 @@ class _AddplantPagesState extends State<AddplantPages> {
             borderSide: BorderSide(color: Colors.red, width: 2),
           ),
           prefixIcon: const Icon(
-            Icons.sell,
+            Icons.date_range_outlined,
             color: Color.fromARGB(255, 99, 206, 0),
           ),
           label: Text(
