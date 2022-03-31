@@ -143,11 +143,11 @@ class _PlantPagesState extends State<PlantPages> {
                               },
                               child: const Text(
                                 'ยืนยัน',
-                                style: TextStyle(color: Colors.red),
+                                style: TextStyle(color: Colors.green),
                               )),
                           TextButton(
                               onPressed: () => Navigator.pop(context),
-                              child: const Text('ยกเลิก')),
+                              child: const Text('ยกเลิก',style: TextStyle(color: Colors.red,))),
                           
                         ],
                       );
@@ -180,7 +180,7 @@ class _PlantPagesState extends State<PlantPages> {
                                 },
                                 child: const Text(
                                   'ยืนยัน',
-                                  style: TextStyle(color: Colors.red),
+                                  style: TextStyle(color: Color.fromARGB(255, 2, 255, 192)),
                                 )),
                           ],
                         );

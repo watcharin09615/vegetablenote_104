@@ -31,6 +31,7 @@ class _HarvestPagesState extends State<HarvestPages> {
             input( _qty , 'quantity (kg)'),
             inputdate(),
             submit(),
+            textt( PlantPages(email: widget.email,) , 'ย้อนกลับ'),
 
           ],
         ),
@@ -49,6 +50,23 @@ class _HarvestPagesState extends State<HarvestPages> {
         })
         .then((value) => print("Plants data has been successfully"))
         .catchError((error) => print("Failed to add data: $error"));
+  }
+
+  SizedBox textt(next , text) {
+    return SizedBox(
+      width: 130,
+      height: 45,
+      child: TextButton(
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue),
+        ),
+        onPressed: () {
+          var route = MaterialPageRoute(builder: (context) => next,);
+          Navigator.push(context, route);
+        },
+        child: Text(text),
+      ),
+    );
   }
 
   SizedBox submit() {
@@ -147,7 +165,7 @@ class _HarvestPagesState extends State<HarvestPages> {
                   color: Color.fromARGB(255, 99, 206, 0),
                 ),
                 label: Text(
-                  'Date Plant',
+                  'Date Harvest',
                   style: TextStyle(color: Color.fromARGB(255, 99, 206, 0)),
                 ),
               //   label: Text(

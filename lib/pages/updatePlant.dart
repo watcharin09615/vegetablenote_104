@@ -54,6 +54,7 @@ class _UpdatePlantState extends State<UpdatePlant> {
         body: Form(
           child: ListView(
             children: [
+              text(),
               updatetext(_name , 'Plant name' , 'plant_name' ),
               inputdate(),
               submit(),
@@ -62,6 +63,17 @@ class _UpdatePlantState extends State<UpdatePlant> {
           ),
         ),
       ), 
+    );
+  }
+
+  Container text() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      alignment: Alignment.center,
+      child: const Text(
+        'แก้ไขข้อมูล',
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      ),
     );
   }
 
